@@ -10,7 +10,13 @@ public class Adres extends  BaseEntity{
 
     public Adres() {
     }
-
+    public Adres( int musteriid, String il, String ilce, String mahalle, String adres) {
+        this.musteriid = musteriid;
+        this.il = il;
+        this.ilce = ilce;
+        this.mahalle = mahalle;
+        this.adres = adres;
+    }
     public Adres(int id, int musteriid, String il, String ilce, String mahalle, String adres) {
         this.id = id;
         this.musteriid = musteriid;
@@ -24,9 +30,6 @@ public class Adres extends  BaseEntity{
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public int getMusteriid() {
         return musteriid;

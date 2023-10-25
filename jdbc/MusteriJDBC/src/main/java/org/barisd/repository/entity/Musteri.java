@@ -10,7 +10,13 @@ public class Musteri extends BaseEntity{
 
     public Musteri() {
     }
-
+    public Musteri(String ad, String soyad, String telefon, String cinsiyet, long dtarih) {
+        this.ad = ad;
+        this.soyad = soyad;
+        this.telefon = telefon;
+        this.cinsiyet = cinsiyet;
+        this.dtarih = dtarih;
+    }
     public Musteri(int id, String ad, String soyad, String telefon, String cinsiyet, long dtarih) {
         this.id = id;
         this.ad = ad;
@@ -66,5 +72,17 @@ public class Musteri extends BaseEntity{
 
     public void setDtarih(long dtarih) {
         this.dtarih = dtarih;
+    }
+
+    @Override
+    public String toString() {
+        return "Musteri{" +
+                "id=" + id +
+                ", ad='" + ad + '\'' +
+                ", soyad='" + soyad + '\'' +
+                ", telefon='" + telefon + '\'' +
+                ", cinsiyet='" + cinsiyet + '\'' +
+                ", dtarih=" + dtarih +
+                '}';
     }
 }
