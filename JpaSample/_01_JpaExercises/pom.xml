@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.barisd</groupId>
+    <artifactId>_01_JpaExercise</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <maven.compiler.source>19</maven.compiler.source>
+        <maven.compiler.target>19</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>javax.persistence</groupId>
+            <artifactId>javax.persistence-api</artifactId>
+            <version>2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.6.0</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>2.0.1.Final</version>
+        </dependency>
+<!--        Gerçekten, Java Persistence API (JPA) kullanırken bir JPA sağlayıcısı eklemeniz gerekmektedir.
+JPA, bir arayüzdür ve kendisi bağımsız bir şekilde çalışmaz. JPA'nın kullanılabilmesi için bir JPA sağlayıcısına (örneğin
+Hibernate, EclipseLink, Apache OpenJPA, vb.) ihtiyaç vardır. JPA, veritabanı işlemlerini yönetmek için kullanılan bir
+ spesifikasyon ve bu spesifikasyonu uygulayan somut bir JPA sağlayıcısına ihtiyaç duyar. Bu sağlayıcı, JPA'nın
+ spesifikasyonlarına uygun olarak veritabanı işlemlerini gerçekleştirir.-->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>5.6.15.Final</version>
+        </dependency>
+    </dependencies>
+
+</project>
