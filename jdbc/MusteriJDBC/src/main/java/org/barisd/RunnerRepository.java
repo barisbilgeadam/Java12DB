@@ -18,7 +18,7 @@ public class RunnerRepository {
 //        m1.setTelefon("11111");
 //        repository.update(m1);
 //        System.out.println("Update işleminden sonra:");
-        System.out.println(repository.findById(2010));
+        System.out.println(repository.findById(1));
 
     }
 }
