@@ -14,8 +14,18 @@ import java.util.Date;
 
 public class Main {
     public static void main(String[] args) {
+//        Urun urunLaptop= Urun.builder()
+//               .ad("Laptop")
+//               .fiyat(BigDecimal.valueOf(50000))
+//               .stok(5)
+//               .build();
+//        new UrunRepository().save(urunLaptop);
 
-        CriteriaOrnekleri criteriaOrnekleri=new CriteriaOrnekleri();
+        new UrunRepository().deleteById(Urun.class,4L);
+
+
+
+//        CriteriaOrnekleri criteriaOrnekleri=new CriteriaOrnekleri();
         //criteriaOrnekleri.findAll().forEach(System.out::println);
         //criteriaOrnekleri.selectOneColumn().forEach(System.out::println);
 //        String donenAd=criteriaOrnekleri.selectOneColumnById(2L);
@@ -30,8 +40,8 @@ public class Main {
 //            System.out.println("fiyat:"+((BigDecimal)o[2]).multiply(BigDecimal.valueOf(1.18))          );
 //        });
 
-        criteriaOrnekleri.findAllByNameAndFiyatGt("%r%", BigDecimal.valueOf(1000))
-                .forEach(System.out::println);
+//        criteriaOrnekleri.findAllByNameAndFiyatGt("%r%", BigDecimal.valueOf(1000))
+//                .forEach(System.out::println);
 
 
 //        Session session;
