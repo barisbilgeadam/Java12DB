@@ -1,5 +1,6 @@
 package com.barisd;
 
+import com.barisd.criteriaornekler.CriteriaOrnekleri;
 import com.barisd.enums.ECinsiyet;
 import com.barisd.repository.UrunRepository;
 import com.barisd.repository.entity.*;
@@ -13,24 +14,44 @@ import java.util.Date;
 
 public class Main {
     public static void main(String[] args) {
-        Session session;
-        Transaction transaction;
 
-        BaseEntity baseEntity=BaseEntity.builder()
-                .durum(1)
-                .olusturmaTarihi(System.currentTimeMillis())
-                .guncellemeTarihi(System.currentTimeMillis())
-                .build();
+        CriteriaOrnekleri criteriaOrnekleri=new CriteriaOrnekleri();
+        //criteriaOrnekleri.findAll().forEach(System.out::println);
+        //criteriaOrnekleri.selectOneColumn().forEach(System.out::println);
+//        String donenAd=criteriaOrnekleri.selectOneColumnById(2L);
+//        System.out.println(donenAd);
 
-       Urun urunBilgisayar= Urun.builder()
-               .ad("Bilgisayar")
-               .fiyat(BigDecimal.valueOf(25000))
-               .stok(5)
-               .baseEntity(baseEntity)
-               .build();
+//        Urun donenUrun=criteriaOrnekleri.findUrunById(2L);
+//        System.out.println(donenUrun);
+
+//        criteriaOrnekleri.selectManyColumn().forEach(o->{
+//            System.out.println("id:"+o[0]);
+//            System.out.println("ad:"+o[1]);
+//            System.out.println("fiyat:"+((BigDecimal)o[2]).multiply(BigDecimal.valueOf(1.18))          );
+//        });
+
+        criteriaOrnekleri.findAllByNameAndFiyatGt("%r%", BigDecimal.valueOf(1000))
+                .forEach(System.out::println);
 
 
-       new UrunRepository().save(urunBilgisayar);
+//        Session session;
+//        Transaction transaction;
+//
+//        BaseEntity baseEntity=BaseEntity.builder()
+//                .durum(1)
+//                .olusturmaTarihi(System.currentTimeMillis())
+//                .guncellemeTarihi(System.currentTimeMillis())
+//                .build();
+//
+//       Urun urunBilgisayar= Urun.builder()
+//               .ad("Bilgisayar")
+//               .fiyat(BigDecimal.valueOf(25000))
+//               .stok(5)
+//               .baseEntity(baseEntity)
+//               .build();
+//
+//
+//       new UrunRepository().save(urunBilgisayar);
 
 
 
