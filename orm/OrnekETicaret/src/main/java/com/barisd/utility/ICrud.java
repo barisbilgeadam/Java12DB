@@ -7,10 +7,10 @@ import java.util.Optional;
 public interface ICrud<T,ID> {
     T save(T entity);
     Iterable<T> saveAll(Iterable<T> entities);
-    void deleteById(Class<T> clazz,ID id);
+    void deleteById(ID id);
     void delete(T entity);
     T update(T entity);
-    Optional<T> findById(Class<T> clazz,ID id);
+    Optional<T> findById(ID id);
     boolean existsById(ID id);
     List<T> findAll();
 

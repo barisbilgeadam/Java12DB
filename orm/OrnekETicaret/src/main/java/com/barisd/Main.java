@@ -21,7 +21,7 @@ public class Main {
 //               .build();
 //        new UrunRepository().save(urunLaptop);
 
-        new UrunRepository().deleteById(Urun.class,4L);
+        new UrunRepository().deleteById(4L);
 
 
 

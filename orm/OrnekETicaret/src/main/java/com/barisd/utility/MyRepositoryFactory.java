@@ -13,6 +13,11 @@ import java.util.Optional;
 public class MyRepositoryFactory<T,ID> implements ICrud<T, ID>{
     private Session session;
     private Transaction transaction;
+    Class<T> clazz;
+
+    public MyRepositoryFactory(Class<T> clazz) {
+        this.clazz=clazz;
+    }
 
     private void openSession() {
         session= HibernateUtility.getSessionFactory().openSession();
@@ -35,7 +40,7 @@ public class MyRepositoryFactory<T,ID> implements ICrud<T, ID>{
     public Iterable<T> saveAll(Iterable<T> entities) {
         openSession();
         entities.forEach(entity->{
-            session.save(entity);
+            session.save(entity); //jpada persist
 
         });
         closeSession();
@@ -43,7 +48,7 @@ public class MyRepositoryFactory<T,ID> implements ICrud<T, ID>{
     }
 
     @Override
-    public void deleteById(Class<T> clazz,ID id) {
+    public void deleteById(ID id) {
         openSession();
         session.delete(session.get(clazz, (Serializable) id));
         closeSession();
@@ -52,23 +57,23 @@ public class MyRepositoryFactory<T,ID> implements ICrud<T, ID>{
     @Override
     public void delete(T entity) {
         openSession();
-        session.delete(entity);
+        session.delete(entity); //jpada remove
         closeSession();
     }
 
     @Override
     public T update(T entity) {
         openSession();
-        //session.update(entity);
+        //session.update(entity); //jpada merge()
         T guncellenen = (T) session.merge(entity);
         closeSession();
         return guncellenen;
     }
 
     @Override
-    public Optional<T> findById(Class<T> clazz,ID id) {
+    public Optional<T> findById(ID id) {
         openSession();
-        Optional<T> obj=Optional.ofNullable(session.get(clazz, (Serializable) id));
+        Optional<T> obj=Optional.ofNullable(session.get(clazz, (Serializable) id)); //jpa da find()
         closeSession();
         return obj;
     }
@@ -103,4 +108,7 @@ public class MyRepositoryFactory<T,ID> implements ICrud<T, ID>{
     public List<T> findByColumnNameAndValue(String columnName, BigDecimal value) {
         return null;
     }
+
+
+
 }

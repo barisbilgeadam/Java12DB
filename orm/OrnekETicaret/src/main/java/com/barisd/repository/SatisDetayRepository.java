@@ -5,4 +5,7 @@ import com.barisd.utility.MyRepositoryFactory;
 
 public class SatisDetayRepository extends MyRepositoryFactory<SatisDetay,Long> {
 
+    public SatisDetayRepository() {
+        super(SatisDetay.class);
+    }
 }

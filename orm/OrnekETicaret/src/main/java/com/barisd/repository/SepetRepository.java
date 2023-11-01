@@ -6,4 +6,7 @@ import com.barisd.utility.MyRepositoryFactory;
 
 public class SepetRepository extends MyRepositoryFactory<Sepet,Long> {
 
+    public SepetRepository() {
+        super(Sepet.class);
+    }
 }
