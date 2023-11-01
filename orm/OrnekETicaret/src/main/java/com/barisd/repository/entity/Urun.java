@@ -14,6 +14,10 @@ import java.math.BigDecimal;
 @Entity
 @Builder
 @Table(name = "tblurun")
+@NamedQueries({
+        @NamedQuery(name = "Urun.findAll", query = "SELECT u FROM Urun u"),
+        @NamedQuery(name = "Urun.findByAd", query="SELECT u FROM Urun u WHERE u.ad LIKE :urunad")
+})
 public class Urun {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

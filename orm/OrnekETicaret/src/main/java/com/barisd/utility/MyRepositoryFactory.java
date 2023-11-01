@@ -1,20 +1,23 @@
 package com.barisd.utility;
 
-import com.barisd.repository.entity.Musteri;
-import com.sun.xml.bind.v2.model.core.ID;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.io.Serializable;
-import java.math.BigDecimal;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class MyRepositoryFactory<T,ID> implements ICrud<T, ID>{
     private Session session;
     private Transaction transaction;
+    private CriteriaBuilder criteriaBuilder;
     Class<T> clazz;
-
     public MyRepositoryFactory(Class<T> clazz) {
         this.clazz=clazz;
     }
@@ -41,7 +44,6 @@ public class MyRepositoryFactory<T,ID> implements ICrud<T, ID>{
         openSession();
         entities.forEach(entity->{
             session.save(entity); //jpada persist
-
         });
         closeSession();
         return entities;
@@ -80,34 +82,75 @@ public class MyRepositoryFactory<T,ID> implements ICrud<T, ID>{
 
     @Override
     public boolean existsById(ID id) {
-
-        return false;
+        return findById(id).isPresent();
     }
 
     @Override
     public List<T> findAll() {
-        return null;
+        openSession();
+        //session.createNativeQuery() bu metod içine direkt SQL yazılabilir.
+        List<T> resultList = session.createQuery("FROM " + clazz.getSimpleName(), clazz).getResultList();
+        closeSession();
+        return resultList;
     }
 
+    /**
+     * select * from tbl_ where columnname=value
+     * @param columnName
+     * @param value
+     * @return
+     */
+    @Override
+    public <E> List<T> findByColumnNameAndValue(String columnName, E value) {
+        openSession();
+        List<T> resultList = session.createQuery("FROM " + clazz.getSimpleName() + " WHERE " + columnName + " = :xyz", clazz)
+                .setParameter("xyz", value).getResultList();
+        closeSession();
+        return resultList;
+    }
+
+    /**
+     * findByEntity metodu ile yapılmak istenen:  Bir sınıf içindeki alanların metod tarafından
+     * okunulması ve her bir alanın içindeki değerlerin kontrol edilerek
+     * null olmayanları sorguya dahil etmesidir.
+     * Böylece esnek sorgulama sistemi kazandırılmaya çalışılacaktır.
+     * Bu işlemin adına REVERSE ENGINEERING denir.
+     * Burada REFLECTION API kullanılabilir.
+     */
     @Override
     public List<T> findByEntity(T entity) {
-        return null;
+        openSession();
+        criteriaBuilder= session.getCriteriaBuilder();
+        CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(clazz);
+        Root<T> root = criteriaQuery.from(clazz);
+
+        List<Predicate> predicates=new ArrayList<>(); //sorguda kullanacağımız kriterleri tutacağımız liste.
+        // Sınıf içindeki tüm fieldları dizi olarak döner.
+        Field[] fields = clazz.getDeclaredFields(); //id,ad,soyad...
+        for (Field field:fields) {
+            field.setAccessible(true); // fieldı Erişime açmak için
+            try {
+                Object value = field.get(entity);
+                if(value!=null && !field.getName().equals("id")){
+                    if(field.getType().isAssignableFrom(String.class)){
+                        predicates.add(criteriaBuilder.like(root.get(field.getName()), (String) value));
+                    }
+                    if(field.getType().isAssignableFrom(Number.class)) {
+                        predicates.add(criteriaBuilder.equal(root.get(field.getName()), value));
+                    }
+                }
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        criteriaQuery.select(root).where(predicates.toArray(new Predicate[]{}));
+        List<T> resultList = session.createQuery(criteriaQuery).getResultList();
+        closeSession();
+        return resultList;
     }
 
-    @Override
-    public List<T> findByColumnNameAndValue(String columnName, String value) {
-        return null;
-    }
 
-    @Override
-    public List<T> findByColumnNameAndValue(String columnName, Long value) {
-        return null;
-    }
 
-    @Override
-    public List<T> findByColumnNameAndValue(String columnName, BigDecimal value) {
-        return null;
-    }
 
 
 

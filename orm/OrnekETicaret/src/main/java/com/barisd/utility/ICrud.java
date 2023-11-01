@@ -23,9 +23,8 @@ public interface ICrud<T,ID> {
      */
     List<T> findByEntity(T entity);
 
-    List<T> findByColumnNameAndValue(String columnName, String value);
-    List<T> findByColumnNameAndValue(String columnName, Long value);
-    List<T> findByColumnNameAndValue(String columnName, BigDecimal value);
+    <E> List<T> findByColumnNameAndValue(String columnName, E value);
+
 
 
 

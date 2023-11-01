@@ -2,8 +2,10 @@ package com.barisd.criteriaornekler;
 
 import com.barisd.repository.entity.Musteri;
 import com.barisd.repository.entity.Urun;
+import com.barisd.repository.views.VwUrun;
 import com.barisd.utility.HibernateUtility;
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 
 import javax.persistence.criteria.*;
 import java.math.BigDecimal;
@@ -110,11 +112,7 @@ public class CriteriaOrnekleri {
      * Geri dönüş tipi ne?
      * Object[] veya tuple kullanılabilir.
     */
-//    Long id=3L;
-//    String ad="Bilgisayar";
-//    BigDecimal fiyat= BigDecimal.valueOf(1000);
-//
-//    Object[] data={id,ad,fiyat};
+
 
     public List<Object[]> selectManyColumn(){
         CriteriaQuery<Object[]> criteriaQuery = criteriaBuilder.createQuery(Object[].class);
@@ -145,5 +143,38 @@ public class CriteriaOrnekleri {
         criteriaQuery.select(root).where(sonKosul);
 
         return session.createQuery(criteriaQuery).getResultList();
+    }
+
+    /**
+     * Native Query yazımı: SQL kodları ile JPA(Hibernate) üzerinden sorgulama yapabilirsiniz.
+     *
+     * Eğer direkt sorguyu yazıp bırakırsanız geriye Object dizisi döner.
+     * Gidip tip belirtmek gerekli.
+     */
+    public List<Urun> findAllNativeQuery(){
+        List<Urun> resultList = session.createNativeQuery("SELECT * FROM tblurun", Urun.class).getResultList();
+        return resultList;
+    }
+    public List<VwUrun> findAllNativeQuery2(){
+         List<VwUrun> resultList = session.createNativeQuery("SELECT id,ad FROM tblurun", VwUrun.class).getResultList();
+        return resultList;
+    }
+    /**
+     * Named Query
+     * Kullanılacak dil: JPQL, HQL
+     * Entity üzerine yazılır.
+     * SQL  -> SELECT * FROM tblmusteri
+     * JPQL -> SELECT m FROM Musteri m
+     * HQL  -> FROM Musteri
+     */
+    public List<Urun> findAllNamedQuery(){
+      return session.createNamedQuery("Urun.findAll", Urun.class).getResultList();
+    }
+
+    public List<Urun> findAllByAd(String urunAdi){
+        Query<Urun> namedQuery = session.createNamedQuery("Urun.findByAd", Urun.class);
+        namedQuery.setParameter("urunad",urunAdi);
+
+        return namedQuery.getResultList();
     }
 }

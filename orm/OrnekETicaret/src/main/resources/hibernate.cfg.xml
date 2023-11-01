@@ -22,6 +22,7 @@
         <mapping class="com.barisd.repository.entity.Satis"/>
         <mapping class="com.barisd.repository.entity.Musteri"/>
         <mapping class="com.barisd.repository.entity.SatisDetay"/>
+        <mapping class="com.barisd.repository.views.VwUrun"/>
     </session-factory>
 
 </hibernate-configuration>

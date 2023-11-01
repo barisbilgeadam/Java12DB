@@ -1,16 +1,6 @@
 package com.barisd;
 
 import com.barisd.criteriaornekler.CriteriaOrnekleri;
-import com.barisd.enums.ECinsiyet;
-import com.barisd.repository.UrunRepository;
-import com.barisd.repository.entity.*;
-import com.barisd.utility.HibernateUtility;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-
-import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.Date;
 
 public class Main {
     public static void main(String[] args) {
@@ -21,11 +11,14 @@ public class Main {
 //               .build();
 //        new UrunRepository().save(urunLaptop);
 
-        new UrunRepository().deleteById(4L);
+        //new UrunRepository().deleteById(4L);
 
 
 
-//        CriteriaOrnekleri criteriaOrnekleri=new CriteriaOrnekleri();
+       CriteriaOrnekleri criteriaOrnekleri=new CriteriaOrnekleri();
+       //criteriaOrnekleri.findAllNativeQuery2().forEach(System.out::println);
+      // criteriaOrnekleri.findAllNamedQuery().forEach(System.out::println);
+       criteriaOrnekleri.findAllByAd("%r%").forEach(System.out::println);
         //criteriaOrnekleri.findAll().forEach(System.out::println);
         //criteriaOrnekleri.selectOneColumn().forEach(System.out::println);
 //        String donenAd=criteriaOrnekleri.selectOneColumnById(2L);

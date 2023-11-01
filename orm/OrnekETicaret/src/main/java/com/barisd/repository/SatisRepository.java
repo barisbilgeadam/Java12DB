@@ -8,8 +8,6 @@ import com.barisd.utility.MyRepositoryFactory;
 import java.util.List;
 
 public class SatisRepository extends MyRepositoryFactory<Satis,Long> {
-
-
     public SatisRepository() {
         super(Satis.class);
     }
